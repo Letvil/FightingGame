@@ -12,22 +12,11 @@ public class CharacterStandard : MonoBehaviour {
     // 攻撃の種類
     enum AttackVar {
         // 通常攻撃
-        NeutralAttack,
-        UpAttack,
-        SideAttack,
-        DownAttack,
-
+        NeutralA, UpA, SideA, DownA,
         // B 攻撃
-        NeutralB,
-        UpB,
-        SideB,
-        DownB,
-
-        // 空中攻撃
-        AirAttack,
-
-        // つかみ
-        Grab
+        NeutralB, UpB, SideB, DownB,
+        // 空中攻撃, つかみ
+        AirA, Grab
     }
 
     // 追加コメント
