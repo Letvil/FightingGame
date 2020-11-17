@@ -56,6 +56,17 @@ public class CharacterStandard : MonoBehaviour {
     [SerializeField]
     private int[] attack4_frame;
 
+    /*** 攻撃の種類ごとに変数定義(予定) ***/
+    [Header("攻撃ヒット時の相手の硬直時間")]
+    [SerializeField]
+    private int attack1_r_frame;
+    [SerializeField]
+    private int attack2_r_frame;
+    [SerializeField]
+    private int attack3_r_frame;
+    [SerializeField]
+    private int attack4_r_frame;
+
 
     // 基本変数
     private PlayerState ps;
@@ -77,6 +88,9 @@ public class CharacterStandard : MonoBehaviour {
         set {
             rigidityFrame += value;
             rigidityFrame = Mathf.Max(rigidityFrame, 0);
+
+            // 硬直を解除
+            if (rigidityFrame == 0) c_PlayerState(PlayerState.stop);
         }
         get {
             return rigidityFrame;
@@ -123,12 +137,13 @@ public class CharacterStandard : MonoBehaviour {
 
 
 
-
-    private void Attack (int damage, int r_frame){
-        /*** ダメージを相手に伝える ***/
+    // damage:ダメージ   r_frame:硬直時間
+    private void Attack (int damage, int r_frame, int ene_rframe){
+        /*** 当たり判定オブジェクトの生成 ? ***/
 
 
         // 硬直時間
+        c_PlayerState(PlayerState.attack);
         InitRigidityFrame();
         RigidityFrame += r_frame;
     }
