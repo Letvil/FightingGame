@@ -11,7 +11,23 @@ public class CharacterStandard : MonoBehaviour {
 
     // 攻撃の種類
     enum AttackVar {
-        
+        // 通常攻撃
+        NeutralAttack,
+        UpAttack,
+        SideAttack,
+        DownAttack,
+
+        // B 攻撃
+        NeutralB,
+        UpB,
+        SideB,
+        DownB,
+
+        // 空中攻撃
+        AirAttack,
+
+        // つかみ
+        Grab
     }
 
     // 追加コメント
@@ -29,6 +45,7 @@ public class CharacterStandard : MonoBehaviour {
     private int[] dash_startup;
     private int[] jump_startup;
 
+    /*** 攻撃の種類ごとに変数定義(予定) ***/
     [Header("攻撃_ダメージ")]
     [SerializeField]
     private int attack1_damage;
@@ -39,6 +56,7 @@ public class CharacterStandard : MonoBehaviour {
     [SerializeField]
     private int attack4_damage;
 
+    /*** 攻撃の種類ごとに変数定義(予定) ***/
     [Header("攻撃_発生・持続・硬直")]
     [SerializeField]
     private int[] attack1_frame;
