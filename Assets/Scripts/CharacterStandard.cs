@@ -14,6 +14,7 @@ public class CharacterStandard : MonoBehaviour {
         
     }
 
+    // 追加コメント
     [Header("基本設定")]
     [SerializeField]
     private int maxHp = 100;
