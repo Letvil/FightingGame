@@ -34,44 +34,37 @@ public class CharacterStandard : MonoBehaviour {
     private int[] dash_startup;
     private int[] jump_startup;
 
-    /*** 攻撃の種類ごとに変数定義(予定) ***/
-    [Header("攻撃_ダメージ")]
+    [Header("攻撃設定")]
+    // 通常攻撃
     [SerializeField]
-    private int attack1_damage;
+    private AttackSetting NeutralASetting;
     [SerializeField]
-    private int attack2_damage;
+    private AttackSetting UpASetting;
     [SerializeField]
-    private int attack3_damage;
+    private AttackSetting SideASetting;
     [SerializeField]
-    private int attack4_damage;
+    private AttackSetting DownASetting;
+    // B 攻撃
+    [SerializeField]
+    private AttackSetting NeutralBSetting;
+    [SerializeField]
+    private AttackSetting UpBSetting;
+    [SerializeField]
+    private AttackSetting SideBSetting;
+    [SerializeField]
+    private AttackSetting DownBSetting;
+    // その他攻撃
+    [SerializeField]
+    private AttackSetting AirASetting;
+    [SerializeField]
+    private AttackSetting GrabSetting;
 
-    /*** 攻撃の種類ごとに変数定義(予定) ***/
-    [Header("攻撃_発生・持続・硬直")]
-    [SerializeField]
-    private int[] attack1_frame;
-    [SerializeField]
-    private int[] attack2_frame;
-    [SerializeField]
-    private int[] attack3_frame;
-    [SerializeField]
-    private int[] attack4_frame;
-
-    /*** 攻撃の種類ごとに変数定義(予定) ***/
-    [Header("攻撃ヒット時の相手の硬直時間")]
-    [SerializeField]
-    private int attack1_r_frame;
-    [SerializeField]
-    private int attack2_r_frame;
-    [SerializeField]
-    private int attack3_r_frame;
-    [SerializeField]
-    private int attack4_r_frame;
 
 
     // 基本変数
     private PlayerState ps;
     private int playerHp; // HP
-    private int rigidityFrame; // 硬直時間
+    private int recoveryFrame; // 硬直時間
     private bool deadFlag; // 死亡フラグ
 
 
@@ -84,16 +77,16 @@ public class CharacterStandard : MonoBehaviour {
             return playerHp;
         }
     }
-    private int RigidityFrame {
+    private int RecoveryFrame {
         set {
-            rigidityFrame += value;
-            rigidityFrame = Mathf.Max(rigidityFrame, 0);
+            recoveryFrame += value;
+            recoveryFrame = Mathf.Max(recoveryFrame, 0);
 
             // 硬直を解除
-            if (rigidityFrame == 0) c_PlayerState(PlayerState.stop);
+            if (recoveryFrame == 0) c_PlayerState(PlayerState.stop);
         }
         get {
-            return rigidityFrame;
+            return recoveryFrame;
         }
     }
 
@@ -102,7 +95,7 @@ public class CharacterStandard : MonoBehaviour {
 
     // 初期値操作
     private void InitPlayerHP() { playerHp = maxHp; }
-    private void InitRigidityFrame() { rigidityFrame = 0; }
+    private void InitRecoveryFrame() { recoveryFrame = 0; }
     // プレイヤーの状態操作
     private void c_PlayerState(PlayerState s) { ps = s; }
     private PlayerState r_PlayerState() { return ps; }
@@ -114,7 +107,7 @@ public class CharacterStandard : MonoBehaviour {
 
     void Start() {
         InitPlayerHP();
-        InitRigidityFrame();
+        InitRecoveryFrame();
         c_DeadFlag(false);
     }
 
@@ -126,8 +119,8 @@ public class CharacterStandard : MonoBehaviour {
         }
 
         // 硬直時間
-        if (RigidityFrame > 0) {
-            RigidityFrame--;
+        if (RecoveryFrame > 0) {
+            RecoveryFrame--;
             return;
         }
 
@@ -144,8 +137,8 @@ public class CharacterStandard : MonoBehaviour {
 
         // 硬直時間
         c_PlayerState(PlayerState.attack);
-        InitRigidityFrame();
-        RigidityFrame += r_frame;
+        InitRecoveryFrame();
+        RecoveryFrame += r_frame;
     }
 
     public void GetDamage(int damage, int r_frame) { 
@@ -161,7 +154,7 @@ public class CharacterStandard : MonoBehaviour {
 
         // 硬直時間
         c_PlayerState(PlayerState.damage);
-        InitRigidityFrame();
-        RigidityFrame += r_frame;
+        InitRecoveryFrame();
+        RecoveryFrame += r_frame;
     }
 }
